@@ -5,6 +5,8 @@ const { optionRouter } = require("./modules/option/option.routes");
 const { userRouter } = require("./modules/user/user.routes");
 const { profileRouter } = require("./modules/profile/profile.routes");
 const { postRouter } = require("./modules/post/post.routes");
+const { provinceRouter } = require("./modules/province/province.routes");
+const { cityRouter } = require("./modules/city/city.routes");
 const mainRouter = Router();
 
 mainRouter.use("/auth", authRouter);
@@ -13,9 +15,11 @@ mainRouter.use("/options", optionRouter);
 mainRouter.use("/users", userRouter);
 mainRouter.use("/profiles", profileRouter);
 mainRouter.use("/posts", postRouter);
+mainRouter.use("/provinces", provinceRouter);
+mainRouter.use("/city", cityRouter);
 
 mainRouter.get("/", (req, res) => {
-  res.redirect("/swagger");
+  res.json({});
 });
 
 module.exports = mainRouter;

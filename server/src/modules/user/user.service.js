@@ -56,7 +56,6 @@ class userService {
       delete userDto?.role;
       delete userDto?.mobile;
     }
-
     const { modifiedCount } = await this.#userModel.updateOne(
       { mobile },
       { ...userDto }

@@ -3,7 +3,7 @@ const userService = require("./user.service");
 const httpCodes = require("http-codes");
 const userMessages = require("./user.messages");
 
-class optionController {
+class userController {
   #userService;
   constructor() {
     autoBind(this);
@@ -63,4 +63,4 @@ class optionController {
   }
 }
 
-module.exports = new optionController();
+module.exports = new userController();

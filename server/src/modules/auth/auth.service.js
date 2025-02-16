@@ -55,7 +55,10 @@ class authService {
     if (user.otp.code !== code)
       throw new createHttpError.BadRequest(authMessages.OtpCodeIncorrect);
     if (!user.verifiedMobile)
-      await this.#userService.updateByMobile({ mobile, verifiedMobile: true });
+      await this.#userService.updateByMobile(mobile, {
+        mobile,
+        verifiedMobile: true,
+      });
 
     // AccessToken ساخت
     const AccessToken = await this.signAccessToken({
@@ -67,7 +70,6 @@ class authService {
       userId: user._id,
       mobile: user.mobile,
     });
-
     res.cookie(CookieNames.AccessToken, AccessToken, {
       secure: true,
       httpOnly: true,

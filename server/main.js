@@ -17,7 +17,7 @@ function main() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
-  app.use("/public", express.static(path.join(__dirname, "public")));
+  app.use("public/", express.static(path.join(__dirname, "public")));
   app.use(morgan("tiny"));
 
   app.use(mainRouter);
@@ -25,7 +25,9 @@ function main() {
   AllExceptionHandler(app);
   NotFoundHandler(app);
   app.listen(process.env.PORT, () => {
-    console.log(`Server runing port ${process.env.PORT}`);
+    console.log(
+      `Server runing http://localhost:${process.env.PORT}/swagger/`
+    );
   });
 }
 

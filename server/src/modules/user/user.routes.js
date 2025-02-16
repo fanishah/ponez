@@ -11,6 +11,10 @@ router.delete(
   Authorization("ADMIN"),
   userController.removeByMobile
 );
-router.patch("/:mobile", Authorization("MEMBER"), userController.updateByMobile);
+router.patch(
+  "/:mobile",
+  Authorization("MEMBER"),
+  userController.updateByMobile
+);
 
 module.exports = { userRouter: router };
