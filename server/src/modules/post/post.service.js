@@ -11,35 +11,37 @@ const fs = require("fs");
 const {
   isValidCategoryId,
   isValidPostId,
+  isValidProvinceId,
+  isValidCityId,
 } = require("../../common/utils/isValid");
 const postMessages = require("./post.messages");
 const { Types } = require("mongoose");
-const { dirPublic } = require("../../common/exception/createFolder");
 const UserRole = require("../../common/constant/userRole.enum");
+const provinceService = require("../province/province.service");
+const cityService = require("../city/city.service");
+const { ListOfImagesFromRequest } = require("../../common/utils/functions");
 
 class postService {
   #postModel;
+  #provinceService;
+  #cityService;
   constructor() {
     autoBind(this);
     this.#postModel = PostModel;
+    this.#provinceService = provinceService;
+    this.#cityService = cityService;
   }
 
   async create(postDto, photos) {
-    // اعتبارسنجی اطلاعات پست
-    await postCreateValidation(postDto);
-
     await isValidCategoryId(postDto.categoryid);
-
-    const img = photos.map((photo) => {
-      return `${new Date().getFullYear()}/${
-        new Date().getMonth() + 1 <= 9 //
-          ? `0${new Date().getMonth() + 1}`
-          : new Date().getMonth() + 1
-      }/${photo.filename}`;
-    });
-
-    postDto.img = img;
-    delete postDto.status;
+    await this.#provinceService.findProvinceByid(postDto.province);
+    await this.#cityService.findCityByid(postDto.city);
+    postDto.photos = ListOfImagesFromRequest(
+      photos || [],
+      postDto.fileUploadPath
+    );
+    await postCreateValidation(postDto);
+    console.log(postDto);
     await this.#postModel.create(postDto);
   }
 
@@ -88,7 +90,7 @@ class postService {
     return findAllPost;
   }
 
-  async findAllByCityAndState(searchDto) {
+  async findAllByCityAndProvince(searchDto) {
     const findPost = await this.#postModel.aggregate([
       {
         $lookup: {

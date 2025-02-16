@@ -7,7 +7,7 @@ const CityModel = require("./city.model");
 const cityMessages = require("./city.messages");
 const provinceService = require("../province/province.service");
 
-class cityeService {
+class cityService {
   #cityModel;
   #provinceService;
   constructor() {
@@ -19,16 +19,12 @@ class cityeService {
   async create({ name, provinceId }) {
     await cityCreateValidation({ name, provinceId });
     await this.existNotCityByName(name);
-    await this.#provinceService.findProvinceByid(provinceId)
+    await this.#provinceService.findProvinceByid(provinceId);
     await this.#cityModel.create({ name, provinceId });
   }
 
   async findByid(id) {
-    const city = await this.findCityByid(id);
-    if (!city) {
-      throw new createHttpError.NotFound(cityMessages.NotFound);
-    }
-    return city;
+    return await this.findCityByid(id);
   }
 
   async findAll() {
@@ -47,6 +43,9 @@ class cityeService {
   }
 
   async findCityByid(id) {
+    if (!isValidObjectId(id)) {
+      throw new createHttpError.NotFound(cityMessages.NotIsValidID);
+    }
     const city = await this.#cityModel.findOne({ _id: id }).lean();
     if (!city) {
       throw new createHttpError.NotFound(cityMessages.NotFound);
@@ -60,8 +59,6 @@ class cityeService {
       throw new createHttpError.BadRequest(cityMessages.Duplicate);
     }
   }
-
-
 }
 
-module.exports = new cityeService();
+module.exports = new cityService();

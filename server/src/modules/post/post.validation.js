@@ -3,10 +3,10 @@ const createHttpError = require("http-errors");
 const postMessages = require("./post.messages");
 
 const postSchema = yup.object().shape({
-  title: yup.string().required(),
-  description: yup.string().required(),
+  title: yup.string().required("یک عنوان برای آگهی وارد کنید"),
+  description: yup.string().required("باید توضیحات برای آگهی وارد کنید"),
   img: yup.array(),
-  state: yup.string().required(),
+  province: yup.string().required("انتخاب استان اجباری می باشد"),
   city: yup.string().required(),
   location: yup.string().required(),
   options: yup.array(),
@@ -21,7 +21,7 @@ const postUpdateSchema = yup.object().shape({
   title: yup.string(),
   description: yup.string(),
   img: yup.array(),
-  state: yup.string(),
+  province : yup.string(),
   city: yup.string(),
   location: yup.string(),
   options: yup.array(),
@@ -34,7 +34,8 @@ const postUpdateSchema = yup.object().shape({
 
 // اعتبار سنجی دسته بندی
 async function postCreateValidation(postDto) {
-  const isValid = await postSchema.isValid(postDto);
+  const isValid = await postSchema.validateSync(postDto);
+  console.log(isValid)
   if (!isValid)
     throw new createHttpError.BadRequest(postMessages.NotIsValidPostDto);
 }

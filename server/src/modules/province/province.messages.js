@@ -4,5 +4,6 @@ const provinceMessages = {
   NotFound: "این استان وجود ندارد",
   NotIsValidUseDto: "اطلاعات وارد شده نامعتبر می باشد",
   Remove: "استان مورد نظر حذف شد",
+  NotIsValidID:  "شناسه استان وارد شده نامعتبر می باشد",
 };
 module.exports = provinceMessages;

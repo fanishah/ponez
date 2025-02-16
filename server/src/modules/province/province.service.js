@@ -23,11 +23,7 @@ class provinceService {
   }
 
   async findByid(id) {
-    const province = await this.findProvinceByid(id);
-    if (!province) {
-      throw new createHttpError.NotFound(provinceMessages.NotFound);
-    }
-    return province;
+    return await this.findProvinceByid(id);
   }
 
   async findAll() {
@@ -62,7 +58,7 @@ class provinceService {
 
   async findProvinceByid(id) {
     if (!isValidObjectId(id)) {
-      throw new createHttpError.NotFound(provinceMessages.NotIsValidUseDto);
+      throw new createHttpError.NotFound(provinceMessages.NotIsValidID);
     }
     const province = await this.#provinceModel.aggregate([
       {

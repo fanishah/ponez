@@ -14,7 +14,7 @@
  *              required:
  *                  -   title
  *                  -   description
- *                  -   state
+ *                  -   province
  *                  -   city
  *                  -   categoryid
  *                  -   location
@@ -24,7 +24,7 @@
  *                      type: string
  *                  description:
  *                      type: string
- *                  state:
+ *                  province:
  *                      type: string
  *                  city:
  *                      type: string
@@ -40,6 +40,9 @@
  *                      type: array
  *                  photos:
  *                      type: array
+ *                      items:
+ *                          type: string
+ *                          format: binary
  */
 
 /**
@@ -53,7 +56,7 @@
  *                      type: string
  *                  description:
  *                      type: string
- *                  state:
+ *                  province:
  *                      type: string
  *                  city:
  *                      type: string
@@ -81,10 +84,7 @@
  *          -   Announcement
  *      requestBody:
  *          content:
- *              application/x-www-form-urlencoded:
- *                  schema:
- *                      $ref: '#/components/schemas/CreatePost'
- *              application/json:
+ *              multipart/form-data:
  *                  schema:
  *                      $ref: '#/components/schemas/CreatePost'
  *      responses:
@@ -150,14 +150,14 @@
 /**
  * @swagger
  *
- * /posts/search?state={state}&city={city}:
+ * /posts/search?province={province}&city={city}:
  *  get:
  *      summary: جستجو آگهی بر اساس شهر و استان
  *      tags:
  *          -   Announcement
  *      parameters:
  *         - in: query
- *           name: state
+ *           name: province
  *         - in: query
  *           name: city
  *      responses:

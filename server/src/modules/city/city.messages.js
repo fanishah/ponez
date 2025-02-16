@@ -5,5 +5,6 @@ const cityMessages = {
   NotIsValidUseDto: "اطلاعات وارد شده نامعتبر می باشد",
   Remove: "شهر مورد نظر حذف شد",
   NotValidCityId: "شناسه شهر مورد نظر نامعتبر است",
+  NotIsValidID:  "شناسه شهر وارد شده نامعتبر می باشد",
 };
 module.exports = cityMessages;

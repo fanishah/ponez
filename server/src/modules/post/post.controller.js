@@ -13,7 +13,8 @@ class postController {
   async craete(req, res, next) {
     try {
       req.body.userid = req.user._id;
-      await this.#postService.create(req.body, req.files);
+      delete req.body.status;
+      const ss = await this.#postService.create(req.body, req.files);
       return res
         .status(httpCodes.CREATED)
         .json({ message: postMessages.Craeted });
@@ -30,9 +31,9 @@ class postController {
     }
   }
 
-  async findAllByCityAndState(req, res, next) {
+  async findAllByCityAndProvince(req, res, next) {
     try {
-      const posts = await this.#postService.findAllByCityAndState(req.query);
+      const posts = await this.#postService.findAllByCityAndProvince(req.query);
       return res.status(httpCodes.OK).json(posts);
     } catch (err) {
       next(err);
